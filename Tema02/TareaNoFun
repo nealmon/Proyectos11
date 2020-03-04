@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Plantilla Base</title>
+<style>
+html, body { margin: 0; padding: 0; overflow: hidden; }
+</style>
+</head>
+<body>
+<script src="js/three.min.js"></script>
+<script>
+
+	var scene, aspect, camera, renderer;
+
+		init();
+		render();
+		animate();
+			
+	function init(){	
+	scene = new THREE.Scene();
+	aspect = window.innerWidth / window.innerHeight;
+	camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 1000);
+	renderer = new THREE.WebGLRenderer();
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	document.body.appendChild( renderer.domElement );
+	
+	//Geometria 1 Rectangulo
+	
+	var geoRec = new THREE.Geometry();
+	var resCub=10;
+	
+	    for( var i = 0; i < resCub; i++){
+            for( var j = 0; j < resCub; j++){
+				for( var k = 0; k < res; k++){
+                   var punto = new THREE.Vector3();
+                   punto.x =  (i/(resCub*4));
+                   punto.y = (j/(resCub*4));
+                   punto.z = k/(resCub*4);
+
+                    geoRec.vertices.push( punto );
+					}
+				}
+			}
+			
+			var matRec = new THREE.PointsMaterial( { color: 'blue', size: 0.1 } );
+	
+			
+	//Geometria 2 Esfera		
+	
+	var geoEsfera = new THREE.Geometry();
+	var increRadE= Math.PI/25;
+	var resES=2;
+	
+		//Esfera sacada de: http://esferaopengl.blogspot.com/;
+	        for( var i = 0; i <  Math.PI; i+=increRadE){
+                for( var j = 0; j < 2*Math.PI; j+=increRadE){
+                    var punto = new THREE.Vector3();
+					
+					punto.z = 1 * Math.cos(j) * Math.sin(i) ;
+                    punto.y = 1 * Math.cos(i) ;
+                    punto.x = 1 * Math.sin(j) * Math.sin(i) ;
+                    geoEsfera.vertices.push( punto );
+                }
+            }
+			
+			
+			var matEsf = new THREE.PointsMaterial( { color: 'red', size: 0.1 } );
+	
+	
+	
+	//Geometria 3 Cilindro
+	
+	var geoCilindro = new THREE.Geometry();
+			
+        var increRadC= Math.PI/45;
+			var resCi=10;
+			for( var i = 0; i <  2*Math.PI; i+=increRadC){
+			for ( var j=0; j < resCi*2; j++){
+			 var punto = new THREE.Vector3();
+					punto.z = (1 * Math.sin(i)) ;
+                    punto.y = (j/resCi);
+                    punto.x = (1 * Math.cos(i)) ;
+                    geoCilindro.vertices.push( punto );
+			}
+			}
+
+			var matCil = new THREE.PointsMaterial( { color: 'yellow', size: 0.1 } );
+	
+	
+	
+	//crear los objetos
+	
+	var eje1 = new THREE.Mesh(geoEsfera matEsf);
+		scene.add(eje1);
+	}
+	
+	
+	function render(){
+			camera.position.x = 10;
+			camera.position.y = 10;	 
+		  	camera.position.z = 15;
+			 camera.lookAt( 0, 0, 0 );
+        renderer.render( scene, camera );
+
+
+	}
+</script>
+</body>
+</html>
